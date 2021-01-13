@@ -322,7 +322,9 @@ bool displayio_epaperdisplay_refresh_area(displayio_epaperdisplay_obj_t* self, c
 
             // TODO(tannewt): Make refresh displays faster so we don't starve other
             // background tasks.
+#ifdef USB_AVAILABLE
             usb_background();
+#endif
         }
     }
 

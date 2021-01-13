@@ -63,6 +63,16 @@
 #endif
 #endif
 
+#ifdef NRF52832
+#define MICROPY_PY_SYS_PLATFORM "nRF52832"
+#define FLASH_SIZE                  (512*1024)  // 512 KiB
+#define RAM_SIZE                    (64*1024)  // 64 KiB
+// ????
+#ifndef SPIM3_BUFFER_RAM_SIZE
+#define SPIM3_BUFFER_RAM_SIZE       (0)
+#endif
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This also includes mpconfigboard.h.

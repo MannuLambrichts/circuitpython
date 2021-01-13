@@ -70,10 +70,12 @@ void serial_init(void) {
         .pselcts = NRF_UARTE_PSEL_DISCONNECTED,
         .pselrts = NRF_UARTE_PSEL_DISCONNECTED,
         .p_context = NULL,
-        .hwfc = NRF_UARTE_HWFC_DISABLED,
-        .parity = NRF_UARTE_PARITY_EXCLUDED,
         .baudrate = NRF_UARTE_BAUDRATE_115200,
-        .interrupt_priority = 7
+        .interrupt_priority = 7,
+        .hal_cfg = {
+            .hwfc      = NRF_UARTE_HWFC_DISABLED,
+            .parity    = NRF_UARTE_PARITY_EXCLUDED,
+        }
     };
 
     nrfx_uarte_uninit(&serial_instance);
@@ -123,5 +125,7 @@ void serial_write_substring(const char *text, uint32_t len) {
         m_free(tx_buf);
     }
 }
+
+void serial_early_init(void) {}
 
 #endif  // CIRCUITPY_SERIAL_UART

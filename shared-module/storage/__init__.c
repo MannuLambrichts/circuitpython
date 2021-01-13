@@ -149,18 +149,20 @@ void common_hal_storage_remount(const char *mount_path, bool readonly, bool disa
         mp_raise_OSError(MP_EINVAL);
     }
 
-    #ifdef USB_AVAILABLE
+#ifdef USB_AVAILABLE
     if (!usb_msc_ejected()) {
         mp_raise_RuntimeError(translate("Cannot remount '/' when USB is active."));
     }
-    #endif
+#endif
 
     filesystem_set_internal_writable_by_usb(readonly);
     filesystem_set_internal_concurrent_write_protection(!disable_concurrent_write_protection);
 }
 
 void common_hal_storage_erase_filesystem(void) {
+#ifdef USB_AVAILABLE
     usb_disconnect();
+#endif
     mp_hal_delay_ms(1000);
     filesystem_init(false, true); // Force a re-format.
     common_hal_mcu_reset();

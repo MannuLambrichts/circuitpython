@@ -2,7 +2,12 @@ ifeq ($(SD), s140)
 	CFLAGS += -DBLUETOOTH_SD=140
 	CFLAGS += -DBLE_API_VERSION=4
 else
-$(error Incorrect softdevice set flag)
+ifeq ($(SD), s132)
+	CFLAGS += -DBLUETOOTH_SD=132
+	CFLAGS += -DBLE_API_VERSION=4
+else
+	$(error Incorrect softdevice set flag)
+endif
 endif
 
 CFLAGS += -DBLUETOOTH_SD_DEBUG=1

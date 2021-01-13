@@ -57,8 +57,12 @@ void common_hal_audiobusio_pdmin_construct(audiobusio_pdmin_obj_t* self,
     }
     nrf_pdm->PSEL.CLK = self->clock_pin_number;
     nrf_pdm->PSEL.DIN = self->data_pin_number;
+#if defined(PDM_MCLKCONFIG_SRC_Msk) || defined(__NRFX_DOXYGEN__)
     nrf_pdm->PDMCLKCTRL = PDM_PDMCLKCTRL_FREQ_Default; // For Ratio64
+#endif
+#if defined(PDM_RATIO_RATIO_Msk) || defined(__NRFX_DOXYGEN__)
     nrf_pdm->RATIO = PDM_RATIO_RATIO_Ratio64;
+#endif
     nrf_pdm->GAINL = PDM_GAINL_GAINL_DefaultGain;
     nrf_pdm->GAINR = PDM_GAINR_GAINR_DefaultGain;
     nrf_pdm->ENABLE = 1;

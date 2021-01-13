@@ -250,7 +250,12 @@ void common_hal_busio_spi_unlock(busio_spi_obj_t *self) {
 }
 
 bool common_hal_busio_spi_write(busio_spi_obj_t *self, const uint8_t *data, size_t len) {
+#if NRFX_CHECK(NRFX_SPIM3_ENABLED)
     const bool is_spim3 = self->spim_peripheral->spim.p_reg == NRF_SPIM3;
+#else
+    const bool is_spim3 = false; 
+#endif
+    
     uint8_t *next_chunk = (uint8_t *) data;
 
     while (len > 0) {
@@ -287,7 +292,11 @@ bool common_hal_busio_spi_read(busio_spi_obj_t *self, uint8_t *data, size_t len,
 }
 
 bool common_hal_busio_spi_transfer(busio_spi_obj_t *self, const uint8_t *data_out, uint8_t *data_in, size_t len) {
+#if NRFX_CHECK(NRFX_SPIM3_ENABLED)
     const bool is_spim3 = self->spim_peripheral->spim.p_reg == NRF_SPIM3;
+#else
+    const bool is_spim3 = false; 
+#endif
     const uint8_t *next_chunk_out = data_out;
     uint8_t *next_chunk_in = data_in;
 

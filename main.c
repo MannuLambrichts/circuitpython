@@ -111,7 +111,9 @@ static void reset_devices(void) {
 STATIC void start_mp(supervisor_allocation* heap) {
     reset_status_led();
     autoreload_stop();
+#ifdef USB_AVAILABLE
     supervisor_workflow_reset();
+#endif
 
     // Stack limit should be less than real stack size, so we have a chance
     // to recover from limit hit.  (Limit is measured in bytes.)

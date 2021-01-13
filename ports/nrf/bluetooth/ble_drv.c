@@ -98,6 +98,7 @@ void SD_EVT_IRQHandler(void) {
     uint32_t evt_id;
     while (sd_evt_get(&evt_id) != NRF_ERROR_NOT_FOUND) {
         switch (evt_id) {
+#if defined(NRF52840_XXAA) || defined(NRF52833_XXAA)
             // usb power event
         case NRF_EVT_POWER_USB_DETECTED:
         case NRF_EVT_POWER_USB_POWER_READY:
@@ -109,7 +110,7 @@ void SD_EVT_IRQHandler(void) {
             tusb_hal_nrf_power_event(usbevt);
         }
             break;
-
+#endif
             // Set flag indicating that a flash operation has finished.
         case NRF_EVT_FLASH_OPERATION_SUCCESS:
             sd_flash_operation_status = SD_FLASH_OPERATION_DONE;

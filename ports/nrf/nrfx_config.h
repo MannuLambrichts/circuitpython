@@ -45,7 +45,7 @@
 #if defined(NRF52840_XXAA) || defined(NRF52833_XXAA)
     #define NRFX_SPIM_EXTENDED_ENABLED 1
     #define NRFX_SPIM3_ENABLED 1
-#elif CIRCUITPY_NRF_NUM_I2C == 2
+#elif defined(NRF52832_XXAA) || CIRCUITPY_NRF_NUM_I2C == 2
     #define NRFX_SPIM3_ENABLED 0
 #endif
 #endif
@@ -75,7 +75,11 @@
 // UART
 #define NRFX_UARTE_ENABLED 1
 #define NRFX_UARTE0_ENABLED 1
+#if defined(NRF52840_XXAA) || defined(NRF52833_XXAA)
 #define NRFX_UARTE1_ENABLED 1
+#else
+#define NRFX_UARTE1_ENABLED 0
+#endif
 
 // PWM
 #define NRFX_PWM0_ENABLED 1

@@ -55,7 +55,9 @@
 #include "shared-bindings/microcontroller/__init__.h"
 #include "shared-bindings/rtc/__init__.h"
 
+#ifdef USB_AVAILABLE
 #include "lib/tinyusb/src/device/usbd.h"
+#endif
 
 #ifdef CIRCUITPY_AUDIOBUSIO
 #include "common-hal/audiobusio/I2SOut.h"
@@ -153,6 +155,7 @@ safe_mode_t port_init(void) {
     analogin_init();
 #endif
 
+#ifdef USB_AVAILABLE
     // If the board was reset by the WatchDogTimer, we may
     // need to boot into safe mode. Reset the RESETREAS bit
     // for the WatchDogTimer so we don't encounter this the
@@ -167,6 +170,7 @@ safe_mode_t port_init(void) {
             return WATCHDOG_RESET;
         }
     }
+#endif
 
     return NO_SAFE_MODE;
 }
@@ -338,10 +342,12 @@ void port_idle_until_interrupt(void) {
         // function (whether or not SD is enabled)
         int nested = __get_PRIMASK();
         __disable_irq();
+#ifdef USB_AVAILABLE
         if (!tud_task_event_ready()) {
             __DSB();
             __WFI();
         }
+#endif
         if (!nested) {
             __enable_irq();
         }
